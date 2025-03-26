@@ -1,12 +1,23 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from "react";
+import Layout from "@/components/Layout";
+import Navigation from "@/components/Navigation";
+import MainContent from "@/components/MainContent";
+
+type NavOption = "inicio" | "agentes" | "modelos" | "nuevo";
 
 const Index = () => {
+  const [activeNav, setActiveNav] = useState<NavOption>("inicio");
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col md:flex-row bg-dark overflow-hidden">
+      <Navigation activeOption={activeNav} onNavigate={setActiveNav} />
+      <main className="flex-1 overflow-auto relative">
+        <div className="absolute inset-0 animated-gradient opacity-40 z-0"></div>
+        <div className="relative z-10 h-full">
+          <MainContent />
+        </div>
+      </main>
     </div>
   );
 };

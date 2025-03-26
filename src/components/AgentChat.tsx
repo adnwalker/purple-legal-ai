@@ -82,9 +82,9 @@ const AgentChat = ({ agentType }: AgentChatProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full max-h-full overflow-hidden">
       {/* Predefined prompt section */}
-      <div className="mb-6">
+      <div className="mb-3 px-1">
         <div className="flex gap-2 items-center bg-white/5 p-2 rounded-lg border border-white/10">
           <Input
             type="text"
@@ -96,16 +96,16 @@ const AgentChat = ({ agentType }: AgentChatProps) => {
           <Button 
             onClick={handlePredefinedPrompt}
             variant="outline"
-            className="bg-transparent border border-white/20 hover:bg-white/10 text-white"
+            className="bg-transparent border border-white/20 hover:bg-white/10 text-white whitespace-nowrap"
           >
             <Send size={18} />
-            <span className="ml-2">Enviar</span>
+            <span className="ml-2 hidden sm:inline">Enviar</span>
           </Button>
         </div>
       </div>
       
       {/* Chat history */}
-      <div className="flex-1 mb-4 h-96 overflow-y-auto bg-dark-lighter rounded-lg p-4 min-h-[400px]">
+      <div className="flex-1 mb-3 overflow-y-auto bg-dark-lighter rounded-lg p-3 min-h-0">
         {chatHistory.length > 0 ? (
           <div className="space-y-3">
             {chatHistory.map((message, index) => (
@@ -129,21 +129,21 @@ const AgentChat = ({ agentType }: AgentChatProps) => {
       </div>
       
       {/* User input */}
-      <form onSubmit={handleSubmit} className="flex gap-2 mt-2">
+      <form onSubmit={handleSubmit} className="flex gap-2 mt-auto">
         <Input
           type="text"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Escribe tu consulta aquí..."
-          className="flex-1 bg-dark-lighter text-white border border-border rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-purple/50 focus:border-purple/50"
+          className="flex-1 bg-dark-lighter text-white border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-purple/50 focus:border-purple/50"
         />
         <Button
           type="submit"
-          className="bg-purple hover:bg-purple-dark text-white px-6 py-2 h-12 rounded-lg transition-colors"
+          className="bg-purple hover:bg-purple-dark text-white px-3 sm:px-6 py-2 h-10 rounded-lg transition-colors whitespace-nowrap"
           disabled={!prompt.trim()}
         >
-          <Send size={18} className="mr-2" />
-          Enviar
+          <Send size={18} className="sm:mr-2" />
+          <span className="hidden sm:inline">Enviar</span>
         </Button>
       </form>
     </div>

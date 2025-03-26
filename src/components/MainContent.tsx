@@ -22,24 +22,26 @@ const MainContent = ({ activeNav }: MainContentProps) => {
   };
 
   return (
-    <div className="h-full flex flex-col overflow-y-auto">
-      <header className={cn("p-4 md:p-6 animate-fade-in", isMobile && "pt-4")}>
+    <div className="flex flex-col h-full">
+      <header className={cn("p-4 md:p-6 animate-fade-in", 
+        isMobile && "pt-16" // Extra padding on mobile to account for the menu button
+      )}>
         <h1 className={cn(
-          "text-2xl md:text-3xl lg:text-4xl font-bold text-center text-white mb-4 md:mb-6",
-          isMobile && "text-xl"
+          "text-xl md:text-2xl lg:text-3xl font-bold text-center text-white mb-4",
+          isMobile && "text-lg"
         )}>
           Agentes de Inteligencia Artificial personalizados para tu industria
         </h1>
       </header>
 
-      <div className="flex-1 p-4 md:p-6 overflow-auto">
+      <div className="flex-1 px-2 py-4 md:p-4 overflow-hidden">
         <div className={cn(
-          "glass-card rounded-xl p-4 md:p-6 animate-fade-in",
-          "transition-opacity duration-300 h-full"
+          "glass-card rounded-xl p-3 md:p-4 animate-fade-in",
+          "transition-opacity duration-300 h-full flex flex-col"
         )}>
           {activeNav === "inicio" && (
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-xl md:text-2xl font-semibold mb-4 text-purple">Transformando la industria legal con IA</h2>
+            <div className="max-w-4xl mx-auto overflow-y-auto">
+              <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-4 text-purple">Transformando la industria legal con IA</h2>
               <p className="text-gray-300 mb-6">
                 Nuestros agentes de inteligencia artificial están diseñados para revolucionar el sector legal, 
                 automatizando tareas complejas y proporcionando insights precisos que le permiten a tu equipo 
@@ -88,15 +90,21 @@ const MainContent = ({ activeNav }: MainContentProps) => {
           )}
 
           {activeNav === "agentes" && (
-            <AgentOptions />
+            <div className="flex flex-col h-full overflow-hidden">
+              <AgentOptions />
+            </div>
           )}
 
           {activeNav === "modelos" && (
-            <PredictiveModels />
+            <div className="flex flex-col h-full overflow-y-auto">
+              <PredictiveModels />
+            </div>
           )}
 
           {activeNav === "nuevo" && (
-            <NewAgentChat />
+            <div className="flex flex-col h-full overflow-hidden">
+              <NewAgentChat />
+            </div>
           )}
         </div>
       </div>

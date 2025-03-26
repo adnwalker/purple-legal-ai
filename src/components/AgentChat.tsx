@@ -1,6 +1,9 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Send } from "lucide-react";
 
 interface AgentChatProps {
   agentType: string;
@@ -9,6 +12,7 @@ interface AgentChatProps {
 const AgentChat = ({ agentType }: AgentChatProps) => {
   const [prompt, setPrompt] = useState("");
   const [chatHistory, setChatHistory] = useState<string[]>([]);
+  const [predefinedPrompt, setPredefinedPrompt] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,9 +48,64 @@ const AgentChat = ({ agentType }: AgentChatProps) => {
     }
   };
 
+  const handlePredefinedPrompt = () => {
+    if (predefinedPrompt.trim()) {
+      const message = `Usuario (predefinido): ${predefinedPrompt}`;
+      setChatHistory(prev => [...prev, message]);
+      
+      // Simulate AI response for predefined prompt
+      setTimeout(() => {
+        let aiResponse = "";
+        
+        switch (agentType) {
+          case "analizar":
+            aiResponse = `Analizando documentos: He identificado patrones relevantes relacionados con su consulta predefinida "${predefinedPrompt}"`;
+            break;
+          case "sensus":
+            aiResponse = `Cooper Sensus: Basado en la normativa colombiana, respecto a su consulta predefinida "${predefinedPrompt}", puedo informarle que...`;
+            break;
+          case "lex":
+            aiResponse = `Cooper Lex: He preparado un documento basado en su instrucción predefinida "${predefinedPrompt}"`;
+            break;
+          case "praxis":
+            aiResponse = `Cooper Praxis: Simulando el escenario legal de su consulta predefinida "${predefinedPrompt}". Las implicaciones serían...`;
+            break;
+          default:
+            aiResponse = `Agente: Procesando su consulta predefinida "${predefinedPrompt}"`;
+        }
+        
+        setChatHistory(prev => [...prev, aiResponse]);
+      }, 800);
+      
+      setPredefinedPrompt("");
+    }
+  };
+
   return (
-    <div className="flex flex-col">
-      <div className="mb-4 h-64 overflow-y-auto bg-dark-lighter rounded-lg p-4">
+    <div className="flex flex-col h-full">
+      {/* Predefined prompt section */}
+      <div className="mb-6">
+        <div className="flex gap-2 items-center bg-white/5 p-2 rounded-lg border border-white/10">
+          <Input
+            type="text"
+            value={predefinedPrompt}
+            onChange={(e) => setPredefinedPrompt(e.target.value)}
+            placeholder="Ingresa un prompt predefinido..."
+            className="flex-1 border-0 bg-transparent text-white focus-visible:ring-1 focus-visible:ring-purple/50 focus-visible:ring-offset-0"
+          />
+          <Button 
+            onClick={handlePredefinedPrompt}
+            variant="outline"
+            className="bg-transparent border border-white/20 hover:bg-white/10 text-white"
+          >
+            <Send size={18} />
+            <span className="ml-2">Enviar</span>
+          </Button>
+        </div>
+      </div>
+      
+      {/* Chat history */}
+      <div className="flex-1 mb-4 h-96 overflow-y-auto bg-dark-lighter rounded-lg p-4 min-h-[400px]">
         {chatHistory.length > 0 ? (
           <div className="space-y-3">
             {chatHistory.map((message, index) => (
@@ -69,21 +128,23 @@ const AgentChat = ({ agentType }: AgentChatProps) => {
         )}
       </div>
       
+      {/* User input */}
       <form onSubmit={handleSubmit} className="flex gap-2 mt-2">
-        <input
+        <Input
           type="text"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Escribe tu consulta aquí..."
-          className="flex-1 bg-dark-lighter text-white border border-border rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-purple/50 focus:border-purple/50"
+          className="flex-1 bg-dark-lighter text-white border border-border rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-purple/50 focus:border-purple/50"
         />
-        <button
+        <Button
           type="submit"
-          className="bg-purple hover:bg-purple-dark text-white px-4 py-2 rounded-lg transition-colors"
+          className="bg-purple hover:bg-purple-dark text-white px-6 py-2 h-12 rounded-lg transition-colors"
           disabled={!prompt.trim()}
         >
+          <Send size={18} className="mr-2" />
           Enviar
-        </button>
+        </Button>
       </form>
     </div>
   );

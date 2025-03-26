@@ -7,11 +7,6 @@ type AgentType = "analizar" | "sensus" | "lex" | "praxis";
 
 const AgentOptions = () => {
   const [activeAgent, setActiveAgent] = useState<AgentType>("analizar");
-  const [chatHistory, setChatHistory] = useState<string[]>([]);
-  
-  const addMessage = (message: string) => {
-    setChatHistory(prev => [...prev, message]);
-  };
   
   const agents = [
     {
@@ -37,8 +32,8 @@ const AgentOptions = () => {
   ] as const;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap gap-3 justify-center mb-2">
+    <div className="flex flex-col h-full">
+      <div className="flex flex-wrap gap-3 justify-center mb-4">
         {agents.map((agent) => (
           <button
             key={agent.id}
@@ -55,7 +50,7 @@ const AgentOptions = () => {
         ))}
       </div>
 
-      <div className="glass-card rounded-lg p-5 animate-fade-in">
+      <div className="glass-card rounded-lg p-5 flex-1 animate-fade-in">
         <div className="mb-4">
           <p className="text-gray-300 text-center">
             {agents.find(a => a.id === activeAgent)?.description}

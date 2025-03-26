@@ -6,7 +6,7 @@ import MainContent from "./MainContent";
 type NavOption = "inicio" | "agentes" | "modelos" | "nuevo";
 
 interface LayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
@@ -19,6 +19,7 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="absolute inset-0 animated-gradient opacity-40 z-0"></div>
         <div className="relative z-10 h-full">
           <MainContent activeNav={activeNav} />
+          {children}
         </div>
       </main>
     </div>

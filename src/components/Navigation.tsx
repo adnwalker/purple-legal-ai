@@ -2,6 +2,7 @@
 import { useState } from "react";
 import FileUpload from "./FileUpload";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type NavOption = "inicio" | "agentes" | "modelos" | "nuevo";
 
@@ -12,6 +13,7 @@ interface NavProps {
 
 const Navigation = ({ activeOption = "inicio", onNavigate }: NavProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const isMobile = useIsMobile();
 
   const navItems = [
     { id: "inicio", label: "Inicio" },
@@ -23,7 +25,7 @@ const Navigation = ({ activeOption = "inicio", onNavigate }: NavProps) => {
   return (
     <div 
       className={cn(
-        "bg-dark-light border-r border-border h-screen transition-all duration-300",
+        "bg-dark-light border-r border-border h-screen transition-all duration-300 sticky top-0 left-0 z-20",
         isCollapsed ? "w-16" : "w-64"
       )}
     >
@@ -48,7 +50,7 @@ const Navigation = ({ activeOption = "inicio", onNavigate }: NavProps) => {
           </button>
         </div>
         
-        <nav className="flex-grow p-3 space-y-1">
+        <nav className="flex-grow p-3 space-y-1 overflow-y-auto">
           {navItems.map((item) => (
             <button
               key={item.id}

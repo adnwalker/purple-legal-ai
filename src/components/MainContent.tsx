@@ -5,6 +5,7 @@ import PredictiveModels from "./PredictiveModels";
 import { cn } from "@/lib/utils";
 import AgentChat from "./AgentChat";
 import NewAgentChat from "./NewAgentChat";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type NavOption = "inicio" | "agentes" | "modelos" | "nuevo";
 
@@ -14,27 +15,31 @@ interface MainContentProps {
 
 const MainContent = ({ activeNav }: MainContentProps) => {
   const [chatHistory, setChatHistory] = useState<string[]>([]);
+  const isMobile = useIsMobile();
 
   const addMessage = (message: string) => {
     setChatHistory(prev => [...prev, message]);
   };
 
   return (
-    <div className="h-full flex flex-col">
-      <header className="p-6 animate-fade-in">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white mb-6">
+    <div className="h-full flex flex-col overflow-y-auto">
+      <header className={cn("p-4 md:p-6 animate-fade-in", isMobile && "pt-4")}>
+        <h1 className={cn(
+          "text-2xl md:text-3xl lg:text-4xl font-bold text-center text-white mb-4 md:mb-6",
+          isMobile && "text-xl"
+        )}>
           Agentes de Inteligencia Artificial personalizados para tu industria
         </h1>
       </header>
 
-      <div className="flex-1 p-6 overflow-auto">
+      <div className="flex-1 p-4 md:p-6 overflow-auto">
         <div className={cn(
-          "glass-card rounded-xl p-6 animate-fade-in",
-          "transition-opacity duration-300"
+          "glass-card rounded-xl p-4 md:p-6 animate-fade-in",
+          "transition-opacity duration-300 h-full"
         )}>
           {activeNav === "inicio" && (
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-semibold mb-4 text-purple">Transformando la industria legal con IA</h2>
+              <h2 className="text-xl md:text-2xl font-semibold mb-4 text-purple">Transformando la industria legal con IA</h2>
               <p className="text-gray-300 mb-6">
                 Nuestros agentes de inteligencia artificial están diseñados para revolucionar el sector legal, 
                 automatizando tareas complejas y proporcionando insights precisos que le permiten a tu equipo 

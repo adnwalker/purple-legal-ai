@@ -1,22 +1,22 @@
 
 import { useState } from "react";
-import InputPrompt from "./InputPrompt";
 import { cn } from "@/lib/utils";
+import AgentChat from "./AgentChat";
 
 type AgentType = "analizar" | "sensus" | "lex" | "praxis";
 
-interface AgentOptionsProps {
-  chatHistory: string[];
-  onSendMessage: (message: string) => void;
-}
-
-const AgentOptions = ({ chatHistory, onSendMessage }: AgentOptionsProps) => {
+const AgentOptions = () => {
   const [activeAgent, setActiveAgent] = useState<AgentType>("analizar");
+  const [chatHistory, setChatHistory] = useState<string[]>([]);
+  
+  const addMessage = (message: string) => {
+    setChatHistory(prev => [...prev, message]);
+  };
   
   const agents = [
     {
       id: "analizar",
-      name: "Analizar Documentos",
+      name: "Análisis",
       description: "Análisis detallado de los documentos cargados."
     },
     {
@@ -38,48 +38,31 @@ const AgentOptions = ({ chatHistory, onSendMessage }: AgentOptionsProps) => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="flex flex-wrap gap-3 justify-center mb-2">
         {agents.map((agent) => (
           <button
             key={agent.id}
             onClick={() => setActiveAgent(agent.id)}
             className={cn(
-              "glass-card rounded-lg p-4 text-left transition-all duration-200",
+              "px-4 py-2 rounded-md transition-all duration-200",
               activeAgent === agent.id 
-                ? "border-purple bg-purple/10" 
-                : "hover:bg-white/10 hover:border-white/20"
+                ? "bg-purple/20 text-white border-b-2 border-purple" 
+                : "hover:bg-white/5 text-gray-300"
             )}
           >
-            <h3 className={cn(
-              "text-lg font-medium mb-2 transition-colors",
-              activeAgent === agent.id ? "text-purple" : "text-white"
-            )}>
-              {agent.name}
-            </h3>
-            <p className="text-sm text-gray-400">{agent.description}</p>
+            {agent.name}
           </button>
         ))}
       </div>
 
       <div className="glass-card rounded-lg p-5 animate-fade-in">
-        <div className="flex items-center mb-4">
-          <div className={cn(
-            "w-3 h-3 rounded-full mr-2",
-            activeAgent === "analizar" && "bg-blue-400",
-            activeAgent === "sensus" && "bg-green-400",
-            activeAgent === "lex" && "bg-yellow-400",
-            activeAgent === "praxis" && "bg-red-400"
-          )}></div>
-          <h3 className="text-lg font-medium text-white">
-            {agents.find(a => a.id === activeAgent)?.name || "Agente"}
-          </h3>
+        <div className="mb-4">
+          <p className="text-gray-300 text-center">
+            {agents.find(a => a.id === activeAgent)?.description}
+          </p>
         </div>
         
-        <InputPrompt 
-          agentType={activeAgent} 
-          chatHistory={chatHistory}
-          onSendMessage={onSendMessage}
-        />
+        <AgentChat agentType={activeAgent} />
       </div>
     </div>
   );

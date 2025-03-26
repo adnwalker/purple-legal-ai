@@ -30,7 +30,7 @@ const Navigation = ({ activeOption = "inicio", onNavigate }: NavProps) => {
       <div className="flex flex-col h-full">
         <div className="p-4 border-b border-border flex items-center justify-between">
           <h1 className={cn("text-xl font-bold text-white truncate", isCollapsed && "hidden")}>
-            <span className="text-purple">Purple</span> Legal AI
+            <span className="text-purple-light">IA</span> bogadi
           </h1>
           <button 
             onClick={() => setIsCollapsed(!isCollapsed)}

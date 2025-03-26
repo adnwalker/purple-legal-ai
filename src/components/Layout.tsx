@@ -18,7 +18,7 @@ const Layout = ({ children }: LayoutProps) => {
       <main className="flex-1 overflow-auto relative">
         <div className="absolute inset-0 animated-gradient opacity-40 z-0"></div>
         <div className="relative z-10 h-full">
-          {children}
+          <MainContent activeNav={activeNav} />
         </div>
       </main>
     </div>

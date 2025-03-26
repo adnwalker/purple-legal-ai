@@ -3,11 +3,16 @@ import { useState } from "react";
 import AgentOptions from "./AgentOptions";
 import PredictiveModels from "./PredictiveModels";
 import { cn } from "@/lib/utils";
+import AgentChat from "./AgentChat";
+import NewAgentChat from "./NewAgentChat";
 
 type NavOption = "inicio" | "agentes" | "modelos" | "nuevo";
 
-const MainContent = () => {
-  const [activeNav, setActiveNav] = useState<NavOption>("inicio");
+interface MainContentProps {
+  activeNav: NavOption;
+}
+
+const MainContent = ({ activeNav }: MainContentProps) => {
   const [chatHistory, setChatHistory] = useState<string[]>([]);
 
   const addMessage = (message: string) => {
@@ -35,6 +40,14 @@ const MainContent = () => {
                 automatizando tareas complejas y proporcionando insights precisos que le permiten a tu equipo 
                 enfocarse en lo que realmente importa.
               </p>
+              
+              <div className="flex justify-center mb-8">
+                <img 
+                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3" 
+                  alt="Legal Technology" 
+                  className="rounded-lg shadow-lg max-h-72 object-cover"
+                />
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                 <div className="glass-card hover-card rounded-lg p-5">
@@ -70,7 +83,7 @@ const MainContent = () => {
           )}
 
           {activeNav === "agentes" && (
-            <AgentOptions chatHistory={chatHistory} onSendMessage={addMessage} />
+            <AgentOptions />
           )}
 
           {activeNav === "modelos" && (
@@ -78,22 +91,7 @@ const MainContent = () => {
           )}
 
           {activeNav === "nuevo" && (
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl font-semibold mb-4 text-purple">Crea tu agente personalizado</h2>
-              <p className="text-gray-300 mb-6">
-                Esta funcionalidad estará disponible próximamente. Podrás crear y personalizar agentes 
-                de IA específicos para las necesidades únicas de tu empresa.
-              </p>
-              <div className="glass-card rounded-lg p-8 flex items-center justify-center">
-                <svg className="w-16 h-16 text-purple animate-pulse-light" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                </svg>
-                <div className="ml-4 text-left">
-                  <h3 className="text-xl font-medium text-white">Próximamente</h3>
-                  <p className="text-gray-400">Estamos trabajando para traerte esta funcionalidad pronto</p>
-                </div>
-              </div>
-            </div>
+            <NewAgentChat />
           )}
         </div>
       </div>
